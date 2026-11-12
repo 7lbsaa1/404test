@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فريــلانسر | منصة الخدمات العربية</title>
+<style>
+    :root{
+        --bg:#0f172a; --bg2:#1e293b; --card:#1e293b;
+        --primary:#2563eb; --primary-hov:#1d4ed8;
+        --text:#f1f5f9; --muted:#94a3b8; --accent:#22d3ee;
+        --radius:14px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+    body{background:var(--bg);color:var(--text);line-height:1.7}
+    a{text-decoration:none;color:inherit}
+
+    /* ===== الهيدر ===== */
+    header{
+        position:sticky;top:0;z-index:100;
+        background:rgba(15,23,42,.85);backdrop-filter:blur(10px);
+        border-bottom:1px solid rgba(148,163,184,.15);
+    }
+    .nav{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+    .logo{font-size:1.4rem;font-weight:800;color:var(--text)}
+    .logo span{color:var(--primary)}
+    nav ul{display:flex;gap:24px;list-style:none}
+    nav a{color:var(--muted);font-weight:600;transition:.2s}
+    nav a:hover{color:var(--accent)}
+    .btn{
+        display:inline-block;background:var(--primary);color:#fff;
+        padding:10px 22px;border-radius:10px;font-weight:700;border:none;cursor:pointer;
+        transition:.2s;
+    }
+    .btn:hover{background:var(--primary-hov);transform:translateY(-2px)}
+    .btn-outline{background:transparent;border:2px solid var(--primary)}
+    .menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+
+    /* ===== الهيرو ===== */
+    .hero{
+        text-align:center;padding:90px 24px 70px;
+        background:radial-gradient(circle at 50% 0%,rgba(37,99,235,.25),transparent 60%);
+    }
+    .hero h1{font-size:2.6rem;margin-bottom:16px}
+    .hero h1 span{color:var(--accent)}
+    .hero p{color:var(--muted);max-width:600px;margin:0 auto 32px}
+    .hero .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .stats{display:flex;gap:40px;justify-content:center;margin-top:50px;flex-wrap:wrap}
+    .stat h3{font-size:1.8rem;color:var(--accent)}
+    .stat p{color:var(--muted);font-size:.9rem}
+
+    /* ===== الأقسام ===== */
+    section{padding:70px 24px}
+    .container{max-width:1100px;margin:auto}
+    .section-title{text-align:center;margin-bottom:40px}
+    .section-title h2{font-size:2rem}
+    .section-title p{color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+    .card{
+        background:var(--card);border:1px solid rgba(148,163,184,.12);
+        border-radius:var(--radius);padding:28px;transition:.25s;
+    }
+    .card:hover{transform:translateY(-6px);border-color:var(--primary)}
+    .card .icon{font-size:2rem;margin-bottom:12px}
+    .card h3{margin-bottom:10px}
+    .card p{color:var(--muted);font-size:.95rem}
+    .price{display:block;margin-top:14px;color:var(--accent);font-weight:800}
+
+    /* ===== نماذج ===== */
+    .form-box{max-width:520px;margin:auto;background:var(--card);padding:32px;border-radius:var(--radius);border:1px solid rgba(148,163,184,.12)}
+    .form-box label{display:block;margin-bottom:6px;font-weight:600;font-size:.9rem}
+    .form-box input,.form-box textarea,.form-box select{
+        width:100%;padding:12px;margin-bottom:16px;border-radius:10px;
+        border:1px solid rgba(148,163,184,.25);background:var(--bg);color:var(--text);
+    }
+    .form-box input:focus,.form-box textarea:focus{outline:2px solid var(--primary)}
+    .msg{display:none;padding:12px;border-radius:10px;margin-bottom:16px;font-size:.9rem}
+    .msg.ok{display:block;background:rgba(34,197,94,.15);color:#4ade80}
+    .msg.err{display:block;background:rgba(239,68,68,.15);color:#f87171}
+
+    /* ===== فوتر ===== */
+    footer{border-top:1px solid rgba(148,163,184,.15);text-align:center;padding:30px;color:var(--muted);font-size:.9rem}
+
+    /* ===== إخفاء الصفحات ===== */
+    .page{display:none}
+    .page.active{display:block}
+
+    /* ===== 404 ===== */
+    .notfound{
+        min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+        align-items:center;text-align:center;background:var(--bg);color:#fff;padding:24px;
+    }
+    .notfound h1{font-size:2.2rem;margin-bottom:10px}
+    .notfound p{color:#94a3b8;margin-bottom:24px}
+    .notfound .code{font-size:5rem;font-weight:900;color:var(--primary);opacity:.6}
+
+    @media(max-width:768px){
+        nav ul{
+            position:absolute;top:64px;left:0;right:0;flex-direction:column;
+            background:var(--bg2);padding:20px;display:none;gap:16px;
+        }
+        nav ul.open{display:flex}
+        .menu-btn{display:block}
+        .hero h1{font-size:1.9rem}
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="logo">فريــلان<span>سر</span></div>
+        <nav>
+            <ul id="menu">
+                <li><a href="#" onclick="go('home');return false">الرئيسية</a></li>
+                <li><a href="#" onclick="go('services');return false">الخدمات</a></li>
+                <li><a href="#" onclick="go('about');return false">من نحن</a></li>
+                <li><a href="#" onclick="go('contact');return false">تواصل معنا</a></li>
+            </ul>
+        </nav>
+        <a href="#" class="btn" onclick="go('contact');return false">ابدأ الآن</a>
+        <button class="menu-btn" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+    </div>
+</header>
+
+<!-- ==================== الصفحة الرئيسية ==================== -->
+<main id="home" class="page active">
+    <div class="hero">
+        <h1>وظّف أفضل <span>المستقلين العرب</span> في دقائق</h1>
+        <p>منصة عربية تربط العملاء بمصممين ومبرمجين وكُتّاب محترفين — بأسعار عادلة وجودة مضمونة.</p>
+        <div class="actions">
+            <a href="#" class="btn" onclick="go('contact');return false">اطلب خدمة</a>
+            <a href="#" class="btn btn-outline" onclick="go('services');return false">تصفح الخدمات</a>
+        </div>
+        <div class="stats">
+            <div class="stat"><h3>12,000+</h3><p>مستقل محترف</p></div>
+            <div class="stat"><h3>45,000+</h3><p>مشروع مكتمل</p></div>
+            <div class="stat"><h3>98%</h3><p>رضا العملاء</p></div>
+        </div>
+    </div>
+
+    <section>
+        <div class="container">
+            <div class="section-title"><h2>كيف تعمل المنصة؟</h2></div>
+            <div class="grid">
+                <div class="card"><div class="icon">📝</div><h3>1. انشر طلبك</h3><p>صف المشروع الذي تحتاجه مجاناً وبكل تفاصيله.</p></div>
+                <div class="card"><div class="icon">📩</div><h3>2. استقبل العروض</h3><p>يصل مقترحات من مستقلين مؤهلين مع تقييماتهم.</p></div>
+                <div class="card"><div class="icon">🤝</div><h3>3. اختر الأفضل</h3><p>قارن الأسعار والتقييمات ثم ابدأ العمل بكل أمان.</p></div>
+                <div class="card"><div class="icon">🛡️</div><h3>4. دفع محمي</h3><p>المبلغ يُحفظ حتى استلامك للعمل والموافقة عليه.</p></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ==================== الخدمات ==================== -->
+<main id="services" class="page">
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>الخدمات الأكثر طلباً</h2>
+                <p>اختر التخصص الذي يناسب مشروعك</p>
+            </div>
+            <div class="grid" id="servicesGrid"></div>
+        </div>
+    </section>
+</main>
+
+<!-- ==================== من نحن ==================== -->
+<main id="about" class="page">
+    <section>
+        <div class="container">
+            <div class="section-title"><h2>من نحن</h2></div>
+            <div class="card" style="max-width:700px;margin:auto">
+                <p>فريــلانسر منصة عربية تأسست لتمكين المواهب العربية من العمل الحر، وربطها بعملاء في العالم العربي وخارجه. نؤمن بأن المستقل العربي يستحق منصة عادلة تحمي حقوقه وتوفر له فرصاً حقيقية.</p>
+                <br>
+                <p><strong>رسالتنا:</strong> سوق عمل حر آمن وعادل لكل عربي.</p>
+                <p><strong>قيمنا:</strong> الشفافية — الجودة — حماية الطرفين.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ==================== تواصل معنا ==================== -->
+<main id="contact" class="page">
+    <section>
+        <div class="container">
+            <div class="section-title"><h2>تواصل معنا</h2><p>أخبرنا عن مشروعك وسنعاود الاتصال بك</p></div>
+            <form class="form-box" onsubmit="return sendForm(event)">
+                <div id="formMsg" class="msg"></div>
+                <label for="name">الاسم الكامل</label>
+                <input type="text" id="name" required>
+                <label for="email">البريد الإلكتروني</label>
+                <input type="email" id="email" required>
+                <label for="type">نوع الخدمة</label>
+                <select id="type">
+                    <option>تصميم جرافيك</option>
+                    <option>برمجة وتطوير</option>
+                    <option>كتابة محتوى</option>
+                    <option>أخرى</option>
+                </select>
+                <label for="details">تفاصيل المشروع</label>
+                <textarea id="details" rows="5" required></textarea>
+                <button type="submit" class="btn" style="width:100%">إرسال الطلب</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer>© 2026 فريــلانسر — جميع الحقوق محفوظة</footer>
+
+<script>
+/* =========================================================
+   نظام الصفحات (Router) + حماية المسارات
+   ========================================================= */
+
+// قائمة المسارات المسموحة في الموقع
+const allowedPaths = ["/", "/index.html", "/home", "/services", "/about", "/contact"];
+
+// جلب المسار الحالي الذي كتبه المستخدم في الرابط بعد نطاق الموقع
+const currentPath = window.location.pathname;
+
+// التحقق مما إذا كان المسار غير موجود في القائمة المسموحة
+if (!allowedPaths.includes(currentPath) && currentPath !== "/") {
+    // مسح محتوى الصفحة بالكامل وعرض رسالة الخطأ فقط
+    document.body.innerHTML = `
+        <div style="
+            background-color: #0f172a;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            margin: 0;
+        ">
+            <div style="font-size:5rem;font-weight:900;color:#2563eb;opacity:.6">404</div>
+            <h1 style="font-size:2rem;margin-bottom:10px;">عذراً، لا يوجد صفحة بهذا الاسم</h1>
+            <p style="color: #94a3b8; margin-bottom: 20px;">الرابط الذي تبحث عنه غير موجود أو تم إيقافه.</p>
+            <a href="/" style="
+                background-color: #2563eb;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                text-decoration: none;
+            ">العودة للرئيسية</a>
+        </div>
+    `;
+    // إيقاف تنفيذ باقي السكربت على صفحة الخطأ
+    throw new Error("Page not found: " + currentPath);
+}
+
+// /admin → تحويل احترافي للصفحة الرئيسة
+if (currentPath === "/admin") {
+    window.location.replace("/");
+}
+
+/* ---------- التنقل بين الأقسام ---------- */
+function go(id) {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.getElementById("menu").classList.remove("open");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ---------- الخدمات ---------- */
+const services = [
+    { icon: "🎨", title: "تصميم جرافيك", desc: "شعارات، هوية بصرية، بنرات إعلانية بجودة عالية.", price: "تبدأ من 25$" },
+    { icon: "💻", title: "برمجة وتطوير", desc: "مواقع، تطبيقات، متاجر إلكترونية وحلول مخصصة.", price: "تبدأ من 80$" },
+    { icon: "✍️", title: "كتابة محتوى", desc: "مقالات، محتوى تسويقي، نصوص إعلانية جذابة.", price: "تبدأ من 10$" },
+    { icon: "🎬", title: "مونتاج فيديو", desc: "مونتاج احترافي للإعلانات ومحتوى السوشيال ميديا.", price: "تبدأ من 30$" },
+    { icon: "📈", title: "تسويق رقمي", desc: "إدارة حملات إعلانية وتحسين الظهور في محركات البحث.", price: "تبدأ من 50$" },
+    { icon: "🌐", title: "ترجمة", desc: "ترجمة احترافية عربي/إنجليزي بدقة عالية.", price: "تبدأ من 15$" },
+];
+document.getElementById("servicesGrid").innerHTML = services.map(s => `
+    <div class="card">
+        <div class="icon">${s.icon}</div>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+        <span class="price">${s.price}</span>
+    </div>
+`).join("");
+
+/* ---------- نموذج التواصل ---------- */
+function sendForm(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const msg = document.getElementById("formMsg");
+
+    if (name.length < 3 || !email.includes("@")) {
+        msg.className = "msg err";
+        msg.textContent = "يرجى إدخال بيانات صحيحة.";
+        return false;
+    }
+    msg.className = "msg ok";
+    msg.textContent = "تم استلام طلبك بنجاح! سنعاود التواصل معك قريباً ✅";
+    e.target.reset();
+    return false;
+}
+</script>
+</body>
+</html>
